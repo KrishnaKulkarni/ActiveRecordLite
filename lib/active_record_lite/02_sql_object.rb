@@ -69,14 +69,11 @@ class SQLObject < MassObject
   def insert
     # doesn't this already includes an :id attribute?
     attributes_hash = self.attributes
-    p attributes_hash
+
     insert_into_string = attributes_hash.keys.join(', ')
-    p attributes_hash.keys
+
     values_symbol_string = attributes_hash.keys.map { |att| ":#{att}"}.join(', ')
-    # puts "insert into"
-    # puts "#{self.class.table_name} (#{insert_into_string})"
-    # puts "value_symbol:"
-    # puts "(#{values_symbol_string})"
+
     sql = <<-SQL
     INSERT INTO
     #{self.class.table_name} (#{insert_into_string})
@@ -89,7 +86,7 @@ class SQLObject < MassObject
     self.id = DBConnection.last_insert_row_id
   end
 
-  def initialize(params)
+  def initialize(params = {})
     params.each do |attr_name, value|
       attr_sym = attr_name.to_sym
       unless self.class.columns.include?(attr_sym)
@@ -102,14 +99,33 @@ class SQLObject < MassObject
   end
   # convenience method that either calls insert/update depending on whether the SQLObject already exists in the table.
   def save
-    # ...
+    if id.nil?
+      insert
+    else
+      update
+    end
   end
   # update the row with the id of this SQLObject
+
   def update
-    # ...
+    attributes_hash = self.attributes
+    # puts "Att hash is:"
+    # p attributes_hash
+    set_string = attributes_hash.keys.map{ |att| "#{att} = :#{att}" }.join(', ')
+
+    sql = <<-SQL
+    UPDATE
+      #{self.class.table_name}
+    SET
+      #{set_string}
+    WHERE
+      id = #{self.id}
+    SQL
+
+    DBConnection.execute(sql, attributes_hash)
   end
 
   def attribute_values
-    # ...
+    self.attributes.values
   end
 end

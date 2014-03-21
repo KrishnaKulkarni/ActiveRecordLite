@@ -11,8 +11,11 @@ class MassObject < AttrAccessorObject
   end
 
   def initialize(params = {})
+   # @attributes = Hash.new
     params.each do |ivar_symbol, value|
       self.send("#{ivar_symbol}=", value)
+      # self.send("#{ivar_symbol}=", value)
+      #@attributes[ivar_symbol.to_sym] = value
     end
   end
 end
