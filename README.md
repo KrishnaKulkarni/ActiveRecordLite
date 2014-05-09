@@ -11,18 +11,18 @@ and how that played out in a Ruby context.
 Active Record Methods Implemented
 ---------------------------------
 Associations:
--belongs_to
--has_many
--has_many_through
+- belongs_to
+- has_many
+- has_many_through
 
 
--initialize (with mass assignment)
--attr_accessor
+- initialize (with mass assignment)
+- attr_accessor
 
--all
--find
--where
+- all
+- find
+- where
 
--insert
--update
--save
+- insert
+- update
+- save
