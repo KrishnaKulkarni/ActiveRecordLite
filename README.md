@@ -15,14 +15,17 @@ Associations:
 - has_many
 - has_many_through
 
-
+----
 - initialize (with mass assignment)
 - attr_accessor
 
+----
 - all
 - find
 - where
+ 
 
+----
 - insert
 - update
 - save
